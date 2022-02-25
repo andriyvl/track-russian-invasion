@@ -1,0 +1,40 @@
+<mat-card fxLayout="column" fxLayoutAlign="center center">
+  <button mat-button (click)="clearMarker()">Очистити</button>
+
+    <mat-form-field class="input-width" appearance="fill">
+      <mat-label>Тип військового об'єкту</mat-label>
+      <mat-select (selectionChange)="onMilitaryObjectTypeChange($event.value)" name="food">
+        <mat-option *ngFor="let militaryObject of  militaryObjects" [value]="militaryObject">
+          <img [src]="militaryObject.icon" alt=""> {{militaryObject.title}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  <mat-form-field class="quantity input-width" appearance="fill">
+    <mat-label>Кількість</mat-label>
+    <input matInput type="text" #quantitySelectedInput (input)="onQuantitySelected(quantitySelectedInput.value)">
+  </mat-form-field>
+
+  <mat-form-field class="input-width" appearance="fill">
+    <mat-label>(ЧАС ПО КИЄВУ) Дата коли останній раз помічено</mat-label>
+    <input matInput [matDatepicker]="datePicker" (dateChange)="onLastSeenDateChange($event)">
+    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+    <mat-datepicker #datePicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field class="input-width" appearance="fill">
+    <mat-label>(ЧАС ПО КИЄВУ) Час коли останній раз помічено</mat-label>
+    <input matInput class="input-width" [ngxTimepicker]="timePicker" [format]="24">
+    <ngx-material-timepicker (timeSet)="onTimeSelected($event)" #timePicker></ngx-material-timepicker>
+  </mat-form-field>
+
+  <mat-checkbox class="checkbox" #constantLocationInput (input)="onConstantLocationSelected(constantLocationInput.checked)">Постійне розташування</mat-checkbox>
+
+  <mat-form-field class="quantity input-width" appearance="fill">
+    <mat-label>Напрямок руху</mat-label>
+    <input matInput  #directionSelectedInput (input)="onDirectionSelected(directionSelectedInput.value)" type="text">
+  </mat-form-field>
+
+
+  <button [disabled]="!selectedUnit.name || !selectedUnit.lastSeenDateTime" mat-button (click)="submitUnit()">Повідомити</button>
+</mat-card>
